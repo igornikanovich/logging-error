@@ -1,0 +1,20 @@
+from django.db import models
+
+
+class Application(models.Model):
+    name = models.CharField(max_length=32)
+    token = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
+class Error(models.Model):
+    app = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='errors')
+    date = models.DateTimeField(auto_now=True)
+    type = models.CharField(max_length=128)
+    message = models.TextField()
+    stacktrace = models.TextField()
+
+    def __str__(self):
+        return '{},{}'.format(self.type, self.date)
