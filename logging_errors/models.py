@@ -11,7 +11,7 @@ class Application(models.Model):
 
 class Error(models.Model):
     app = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='errors')
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField()
     type = models.CharField(max_length=128)
     message = models.TextField()
     stacktrace = models.TextField()

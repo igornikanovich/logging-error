@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<div>
+{% for application in application_list %}
+    <div class="btn-group dropright">
+        <button type="button" class="btn btn-secondary dropdown-toggle rounded-0" style="width: 200px" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+            {{ application }}
+        </button>
+    </div>
+    <br>
+{% endfor %}
+<form method="post" action=""> {% csrf_token %}
+  <div class="btn btn-secondary rounded-0" style="width: 200px">
+    <div class="input-group">
+      <input type="text" class="form-control" name="addnewapp" placeholder="Add new">
+      <span class="input-group-btn">
+        <button class="btn btn-warning" type="submit">+</button>
+      </span>
+    </div>
+  </div>
+</form>
+</div>
+{% endblock content %}
