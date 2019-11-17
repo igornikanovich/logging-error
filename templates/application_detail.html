@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form action="" method="get">
+    <select name="type">
+      <option selected="selected" disabled>Type of error:</option>
+        {% for error_type in errors_set %}
+          <option value="{{ error_type }}">{{ error_type }}</option>
+        {% endfor %}
+    </select>
+  <input type="submit" value="Select">
+</form>
+
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Type</th>
+      <th scope="col">Message</th>
+      <th scope="col">Stacktrace</th>
+    </tr>
+  </thead>
+    <tbody>
+      {% for error in errors_list %}
+        <tr>
+          <td>{{error.date}}</td>
+          <td>{{error.type}}</td>
+          <td>{{error.message}}</td>
+          <td>{{error.stacktrace}}</td>
+         </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+  Highcharts.chart('container', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Number of errors per day'
+      },
+      xAxis: {
+          categories: {{ date|safe }}
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Count'
+          }
+	  },
+      series: [{
+          name: 'number of errors per day',
+          data: {{ count_errors }},
+          color: 'green'
+      }]
+  });
+</script>
+
+
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Application(models.Model):
@@ -7,6 +8,9 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('app-detail', args=[self.pk])
 
 
 class Error(models.Model):
@@ -18,3 +22,6 @@ class Error(models.Model):
 
     def __str__(self):
         return '{},{}'.format(self.type, self.date)
+
+    def get_absolute_url(self):
+        return reverse('error-detail', args=[self.id])

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for error in error_list %}
+    {{ error.type }}
+    {{ error.date }}
+    {{ error.message }}
+    {{ error.stacktrace }}
+{% endfor %}
+
+{% endblock content %}
