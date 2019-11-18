@@ -3,7 +3,7 @@ from uuid import uuid4
 import datetime as dt
 
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, DetailView
 
 from .models import Application, Error
 
@@ -59,19 +59,3 @@ class ApplicationDetailView(DetailView):
                                                            'date': json.dumps(date),
                                                            'count_errors': json.dumps(count_errors),
                                                            })
-
-# delete
-class ErrorListView(ListView):
-
-    def get(self, request, *args, **kwargs):
-        errors_set = Error.objects.values_list('type', flat=True).distinct()
-        return render(request, 'errors.html', {'error_list': errors_set})
-
-
-# delete
-class ErrorDetailView(ListView):
-
-    def get(self, request, *args, **kwargs):
-        error_list = Error.objects.filter(id=self.kwargs['id'])
-        return render(request, 'errors_detail.html', {'error_list': error_list})
-

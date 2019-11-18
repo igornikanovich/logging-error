@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-
-{% for error in error_list %}
-    <a href="{{ error.get_absolute_url }}">{{ error }}
-{% endfor %}
-
-{% endblock content %}

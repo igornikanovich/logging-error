@@ -22,6 +22,3 @@ class Error(models.Model):
 
     def __str__(self):
         return '{},{}'.format(self.type, self.date)
-
-    def get_absolute_url(self):
-        return reverse('error-detail', args=[self.id])
