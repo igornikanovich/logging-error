@@ -1,47 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<br>
-<br>
-<div>
-{% for application in application_list %}
-    <a href="{{ application.get_absolute_url }}"> {{ application }}
-{% endfor %}
-<form method="post" action=""> {% csrf_token %}
-  <div class="btn btn-secondary rounded-0" style="width: 200px">
-    <div class="input-group">
-      <input type="text" class="form-control" name="addnewapp" placeholder="Add new">
-      <span class="input-group-btn">
-        <button class="btn btn-warning" type="submit">+</button>
-      </span>
-    </div>
-  </div>
-</form>
-</div>
 
 <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
         <div class="card card-signin my-5 bg-light text-dark">
           <div class="card-body">
-            <h5 class="card-title text-center">Залогиньтесь</h5>
-            <form method="post" action="" class="form-signin" >
-              {% csrf_token %}
-              <div class="form-label-group">
-               <label for="inputName"></label>
-              </div>
-
-              <div class="form-label-group">
-                <label for="inputPassword"></label>
-              </div>
-                {% if form.errors %}
-                    <p class="text-danger">Пожалуйста, проверьте правильность написания логина и пароля.</p>
-                {% endif %}
-              <button class="btn btn-lg btn-block text-uppercase bg-secondary text-white" type="submit">Войти</button>
-              <a class="d-block text-center mt-2 small text-muted" href="">Зарегистрироваться</a>
-            </form>
+            <h5 class="card-title text-center">Выберите приложение:</h5>
+            <div class="btn btn-block bg-light">
+                {% for application in application_list %}
+                   <a href="{{ application.get_absolute_url }}" class="btn btn-light">{{ application }}</a>
+                    <br>
+                {% endfor %}
+                <br>
+                <form method="post" action=""> {% csrf_token %}
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="addnewapp" placeholder="Добавить новое приложение">
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit">+</button>
+                      </span>
+                  </div>
+                </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 {% endblock content %}
