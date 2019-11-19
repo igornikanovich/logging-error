@@ -5,11 +5,14 @@ from rest_framework.response import Response
 from .serializers import ErrorSerializer
 from logging_errors.models import Error
 
+from crashlytics.sdk import error_handler
+
 
 class ErrorCreateView(generics.GenericAPIView):
     queryset = Error.objects.all()
     serializer_class = ErrorSerializer
 
+    @error_handler
     def post(self, request, *args, **kwargs):
         try:
             serializer = self.get_serializer(data=request.data)
@@ -19,4 +22,3 @@ class ErrorCreateView(generics.GenericAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist:
             return Response({'details': 'Invalid application token.'}, status=status.HTTP_403_FORBIDDEN)
-

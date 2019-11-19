@@ -1,5 +1,5 @@
 """
-WSGI config for config project.
+WSGI configSDK for configSDK project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
