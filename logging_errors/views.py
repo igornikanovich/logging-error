@@ -29,6 +29,9 @@ class ApplicationDetailView(DetailView):
     template_name = 'application_detail.html'
 
     def get(self, request, *args, **kwargs):
+        application = Application.objects.get(id=self.kwargs['id'])
+        app_name = application.name
+        app_token = application.token
         errors_set = Error.objects.filter(app_id=self.kwargs['id']).values_list('type', flat=True).distinct()
         type_error = request.GET.get('type')
         if type_error:
@@ -56,6 +59,8 @@ class ApplicationDetailView(DetailView):
         return render(request, 'application_detail.html', {'errors_set': errors_set,
                                                            'errors_list': error_list,
                                                            'error_type': type_error,
+                                                           'app_name': app_name,
+                                                           'app_token': app_token,
                                                            'date': json.dumps(date),
                                                            'count_errors': json.dumps(count_errors),
                                                            })

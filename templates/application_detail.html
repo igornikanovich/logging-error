@@ -2,22 +2,33 @@
 {% block content %}
 
 <div class="container">
-  <div class="row">
-    <div class="col">
-      <form action="" method="get">
-        <select name="type">
-          <option selected="selected" disabled>Type of error</option>
-            {% for error_type in errors_set %}
-              <option value="{{ error_type }}">{{ error_type }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Select">
-      </form>
+    <div class="row">
+        <div class="col-6">
+            Application: {{ app_name }}
+        </div>
+        <div class="col-6">
+            Error type: {{ error_type }}
+        </div>
+            <div class="w-100"></div>
+        <div class="col-6">
+            Token: {{ app_token }}
+        </div>
+        <div class="col-4">
+            <form action="" method="get">
+                <div class="input-group">
+                    <select name="type" class="custom-select">
+                        <option selected="selected" disabled>Type of error</option>
+                            {% for error_type in errors_set %}
+                                <option value="{{ error_type }}">{{ error_type }}</option>
+                            {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Select</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="col-8">
-        {{ error_type }}
-    </div>
-  </div>
 </div>
 
 <table class="table table-sm table-striped table-bordered">
