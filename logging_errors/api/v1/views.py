@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status, generics
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from .serializers import ErrorSerializer
