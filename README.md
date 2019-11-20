@@ -46,6 +46,6 @@ To use crashlytics SDK, you need to transfer the URL and application token to th
 `crashlytics/configSDK.py`
 after that add the decorator @error_handler to the necessary function.
 
-####For example to test crashlytics SDK:
+#### For example to test crashlytics SDK:
 now in logging_error/api/view.py for example, the working code is commented out - the token is not checked for correctness. 
 Try to send an error by an incorrect token - an error will be caught by the decorator @error_handler and transferred to the application.
