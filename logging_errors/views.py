@@ -35,7 +35,7 @@ class ApplicationDetailView(DetailView):
         errors_set = Error.objects.filter(app_id=self.kwargs['id']).values_list('type', flat=True).distinct()
         type_error = request.GET.get('type')
         if type_error:
-            error_list = Error.objects.filter(type=type_error).order_by('-date')
+            error_list = Error.objects.filter(app_id=self.kwargs['id']).filter(type=type_error).order_by('-date')
             first_error_date = Error.objects.filter(type=type_error).order_by('date').first()
             last_error_date = Error.objects.filter(type=type_error).order_by('date').last()
             first_date = first_error_date.date.date()
