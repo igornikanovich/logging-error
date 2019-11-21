@@ -18,7 +18,7 @@
                 <div class="input-group">
                     <select name="type" class="custom-select">
                         <option selected="selected" disabled>Type of error</option>
-                            {% for error_type in errors_set %}
+                            {% for error_type in error_set %}
                                 <option value="{{ error_type }}">{{ error_type }}</option>
                             {% endfor %}
                     </select>
@@ -41,7 +41,7 @@
     </tr>
   </thead>
     <tbody>
-      {% for error in errors_list %}
+      {% for error in error_list %}
         <tr>
           <td>{{error.date}}</td>
           <td>{{error.type}}</td>
@@ -51,6 +51,71 @@
       {% endfor %}
     </tbody>
 </table>
+{#{% if error_list.has_other_pages %}#}
+{#  <ul class="pagination">#}
+{#    {% if error_list.has_previous %}#}
+{#      <li><a href="?page={{ error_list.previous_page_number }}">&laquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&laquo;</span></li>#}
+{#    {% endif %}#}
+{#    {% for i in error_list.paginator.page_range %}#}
+{#      {% if error_list.number == i %}#}
+{#        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>#}
+{#      {% else %}#}
+{#        <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#      {% endif %}#}
+{#    {% endfor %}#}
+{#    {% if error_list.has_next %}#}
+{#      <li><a href="?page={{ error_list.next_page_number }}">&raquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&raquo;</span></li>#}
+{#    {% endif %}#}
+{#  </ul>#}
+{#{% endif %}#}
+<div class="paginator">
+    {% with request.get_full_path as querystring %}
+        <ul class="pagination justify-content-center">
+            <!-- Previous page section -->
+            {% if error_list.has_previous %}
+                {% if 'type' in querystring %}
+                    <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                        <a class="page-link text-secondary" href="{{ querystring }}&page={{ error_list.previous_page_number }}">Prev</a>
+                    </li>
+                {% else %}
+                    <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                        <a class="page-link text-secondary" href="?page={{ error_list.previous_page_number }}">Prev</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+            <!-- All pages section -->
+            {% for page in error_list.paginator.page_range %}
+                {% if error_list.has_next or error_list.has_previous%}
+                    {% if 'type' in querystring %}
+                        <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                            <a class="page-link text-secondary" href="{{ querystring }}&page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                            <a class="page-link text-secondary" href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <!-- Next page section -->
+            {% if error_list.has_next %}
+                {% if 'type' in querystring %}
+                    <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                        <a class="page-link text-secondary" href="{{ querystring }}&page={{ error_list.next_page_number }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item {% if error_list.number == page %}active{% endif %}">
+                        <a class="page-link text-secondary" href="?page={{ error_list.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    {% endwith %}
+</div>
 
 <div id="container">
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
