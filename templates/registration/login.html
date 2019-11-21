@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
+        <div class="card card-signin my-5 bg-light text-dark">
+          <div class="card-body">
+            <h5 class="card-title text-center">Log In</h5>
+            <form method="post" action="{% url 'login' %}" class="form-signin" >
+              {% csrf_token %}
+              <div class="form-label-group">
+                {{ form.username|attr:"id:inputName"|attr:"class:form-control"|attr:"placeholder:Enter your username"|attr:"required autofocus" }}
+                <label for="inputName"></label>
+              </div>
+
+              <div class="form-label-group">
+                {{ form.password|attr:"id:inputPassword"|attr:"class:form-control"|attr:"placeholder:Enter your password"|attr:"required" }}
+                <label for="inputPassword"></label>
+              </div>
+                {% if form.errors %}
+                    <p class="text-danger">Invalid login or password.</p>
+                {% endif %}
+              <button class="btn btn-lg btn-block text-uppercase bg-secondary text-white" type="submit">Log in</button>
+              <a class="d-block text-center mt-2 small text-muted" href="{% url 'register' %}">Create a new account</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

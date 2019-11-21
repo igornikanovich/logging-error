@@ -1,0 +1,17 @@
+#navbar li a{
+    color: #dedede;
+}
+
+#navbar li a:hover{
+    color: #cbcbcb;
+}
+
+.bg-navbar-color{
+    background-color: rgb(174, 174, 174);
+}
+
+.navbar-brand-color{
+    font-size: 22px;
+    color: #dedede;
+}
+
