@@ -40,27 +40,40 @@ class ApplicationDetailView(DetailView):
             last_error_date = Error.objects.filter(type=type_error).order_by('date').last()
             first_date = first_error_date.date.date()
             last_date = last_error_date.date.date()
-            delta_dates = last_date - first_date
-            total_days = delta_dates.days + 1
-            date = list()
-            count_errors = list()
-            for day_number in range(total_days):
-                current_date = (first_date + dt.timedelta(days=day_number))
-                date.append('%s' % current_date)
-                count_day_errors = 0
-                for error in error_list:
-                    if error.date.date() == current_date:
-                        count_day_errors += 1
-                count_errors.append(count_day_errors)
-            date.reverse()
+            if first_date == last_date:
+                time = list()
+                count_errors = list()
+                for hour in range(25):
+                    time.append('%s' % hour)
+                    count_hour_errors = 0
+                    for error in error_list:
+                        if error.date.hour == hour:
+                            count_hour_errors += 1
+                    count_errors.append(count_hour_errors)
+                time.reverse()
+                count_errors.reverse()
+            else:
+                delta_dates = last_date - first_date
+                total_days = delta_dates.days + 1
+                time = list()
+                count_errors = list()
+                for day_number in range(total_days):
+                    current_date = (first_date + dt.timedelta(days=day_number))
+                    time.append('%s' % current_date)
+                    count_day_errors = 0
+                    for error in error_list:
+                        if error.date.date() == current_date:
+                            count_day_errors += 1
+                    count_errors.append(count_day_errors)
+            time.reverse()
             count_errors.reverse()
         else:
-            error_list, date, count_errors = None, None, None
+            error_list, time, count_errors = None, None, None
         return render(request, 'application_detail.html', {'errors_set': errors_set,
                                                            'errors_list': error_list,
                                                            'error_type': type_error,
                                                            'app_name': app_name,
                                                            'app_token': app_token,
-                                                           'date': json.dumps(date),
+                                                           'date': json.dumps(time),
                                                            'count_errors': json.dumps(count_errors),
                                                            })
