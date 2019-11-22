@@ -1,3 +1,3 @@
 # Config for RequestsHTTPTransport
 url = 'http://127.0.0.1:8000/api/crash/'
-token = 'f7b307fd-e027-43f7-b4b7-4ac41e490f4d'
+token = '9db497ef-f8f6-4a7d-81fc-f90f9c48d1aa'

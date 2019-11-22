@@ -1,22 +1,29 @@
 from rest_framework.test import APITestCase
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 from .models import Application, Error
+from authentication.models import User
 
 
 class ApplicationCreateTest(TestCase):
 
     def setUp(self):
-        self.application = Application.objects.create(name='TestApp', token='123456789')
+        self.author = User.objects.create_user(username='lalala', email="lalala@lala.la", password='lalala', id=1)
+        self.client = Client()
+        self.logged_in = self.client.login(username='lalala', password='lalala')
+        self.application = Application.objects.create(name='TestApp', token='123456', author=self.author)
         self.application.save()
 
     def tearDown(self):
+        self.author.delete()
         self.application.delete()
 
     def test_create_application(self):
         response = self.client.post(reverse('app_list'), {'addnewapp': 'Test'})
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(self.logged_in, True)
         self.assertEqual(Application.objects.count(), 2)
 
 
@@ -27,8 +34,17 @@ class RequestsTest(APITestCase):
 
 
 class ErrorCreateTest(APITestCase):
+
+    def setUp(self):
+        self.author = User.objects.create_user(username='lalala', email="lalala@lala.la", password='lalala', id=1)
+        self.client = Client()
+        self.logged_in = self.client.login(username='lalala', password='lalala')
+
+    def tearDown(self):
+        self.author.delete()
+
     def test_create_error(self):
-        application = Application(name='TestApp', token='123456789')
+        application = Application(name='TestApplication', token='123456789', author=self.author)
         application.save()
         url = 'http://127.0.0.0:8000/api/crash/123456789/'
         data = {

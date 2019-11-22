@@ -17,9 +17,6 @@ class RedirectView(View):
             return redirect('login')
 
 
-# class UserRegistrationView(View):
-
-
 def registration(request):
     registered = False
     if request.method == 'POST':

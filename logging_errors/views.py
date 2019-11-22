@@ -10,16 +10,27 @@ from .models import Application, Error
 
 
 class ApplicationListView(ListView):
-    queryset = Application.objects.all()
     template_name = 'applications.html'
     paginate_by = 5
+
+    def get(self, request, *args, **kwargs):
+        application_list = Application.objects.filter(author=self.request.user)
+        paginator = Paginator(application_list, self.paginate_by)
+        page = request.GET.get('page')
+        try:
+            application_list = paginator.page(page)
+        except PageNotAnInteger:
+            application_list = paginator.page(1)
+        except EmptyPage:
+            application_list = paginator.page(paginator.num_pages)
+        return render(request, 'applications.html', {'application_list': application_list})
 
     @staticmethod
     def post(request):
         new_application = request.POST.get('addnewapp')
         if len(str(new_application)) > 0:
             token = uuid4()
-            application = Application.objects.create(name=new_application, token=token)
+            application = Application.objects.create(name=new_application, token=token, author=request.user)
             application.save()
             return redirect('app_list')
         else:
@@ -39,6 +50,8 @@ class ErrorApplicationListView(ListView):
         type_error = request.GET.get('type')
         if type_error:
             error_list = Error.objects.filter(app_id=self.kwargs['id']).filter(type=type_error).order_by('-date')
+            first_error_date = error_list.last()
+            last_error_date = error_list.first()
             error_list_charts = error_list
             paginator = Paginator(error_list, self.paginate_by)
             page = request.GET.get('page')
@@ -48,8 +61,6 @@ class ErrorApplicationListView(ListView):
                 error_list = paginator.page(1)
             except EmptyPage:
                 error_list = paginator.page(paginator.num_pages)
-            first_error_date = Error.objects.filter(type=type_error).order_by('date').first()
-            last_error_date = Error.objects.filter(type=type_error).order_by('date').last()
             first_date = first_error_date.date.date()
             last_date = last_error_date.date.date()
             time = list()

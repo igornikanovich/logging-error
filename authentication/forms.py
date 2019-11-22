@@ -10,8 +10,8 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'password', 'email')
         error_messages = {
             'username':
-                {'unique': 'Пользователь с данным именем уже существует'},
+                {'unique': 'User with this name already exists.'},
             'email':
-                {'unique': 'Пользователь с данным почтовым адресом уже существует'},
+                {'unique': 'User with this email address already exists.'},
         }
 
